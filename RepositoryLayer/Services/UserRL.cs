@@ -6,8 +6,8 @@ using System.Text;
 
 namespace RepositoryLayer.Services
 {
-   public class UserRL : IUserRL
-   {
+    public class UserRL : IUserRL
+    {
         // DB
         IList<User> users = new List<User>();
         public bool SampleApi(User newUser)
@@ -24,16 +24,16 @@ namespace RepositoryLayer.Services
                     return false;
                 }
             }
-           
-            
-             catch (Exception ex)
+
+
+            catch (Exception ex)
             {
 
                 throw ex;
             }
         }
-       
-   }
 
-   
+    }
+
+
 }

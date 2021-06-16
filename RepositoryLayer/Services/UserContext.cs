@@ -1,4 +1,6 @@
-﻿using System;
+﻿using CommonLayer;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -10,6 +12,6 @@ namespace RepositoryLayer.Services
             : base(options)
         {
         }
-        public DbSet<User> User { get; set; }
+        public DbSet<User> Users { get; set; }
     }
 }

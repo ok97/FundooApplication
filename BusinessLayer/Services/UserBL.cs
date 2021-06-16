@@ -15,13 +15,12 @@ namespace BusinessLayer.Services
             this.userRL = userRL;
         }
 
-
         //post request Add
-       public bool SampleApi(User newUser)
-       {
+        public bool SampleApi(User newUser)
+        {
             try
             {
-                newUser.Name = newUser.Name + "Update From BL";
+                newUser.FirstName = newUser.FirstName + "Update From BL";
                 return this.userRL.SampleApi(newUser);
             }
             catch (Exception ex)
@@ -29,6 +28,6 @@ namespace BusinessLayer.Services
 
                 throw ex;
             }
-       }
+        }
     }
 }

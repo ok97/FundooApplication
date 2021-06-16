@@ -26,9 +26,9 @@ namespace FundooApplication.Controllers
             try
             {
                 bool result = this.userBL.SampleApi(newUser);
-                if (result== true)
+                if (result == true)
                 {
-                    return this.Ok(new { success = true, Message = "User Registration successful" });
+                    return this.Ok(new { success = true, Message = "User Registration successful"});
                 }
                 else
                 {
@@ -38,10 +38,10 @@ namespace FundooApplication.Controllers
             catch (Exception ex)
             {
 
-                return this.BadRequest(new { success = false, Message = ex.Message, InnerMessage=ex.InnerException });
+                return this.BadRequest(new { success = false, Message = ex.Message, InnerMessage = ex.InnerException });
             }
-          
+
         }
-        
+
     }
 }

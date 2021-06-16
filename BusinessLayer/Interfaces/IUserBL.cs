@@ -5,7 +5,7 @@ using System.Text;
 
 namespace BusinessLayer.Interfaces
 {
-   public interface IUserBL
+    public interface IUserBL
     {
         bool SampleApi(User newUser);
     }
