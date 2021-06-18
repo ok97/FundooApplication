@@ -20,28 +20,44 @@ namespace FundooApplication.Controllers
         }
 
 
+        //[HttpPost]
+        //public ActionResult SampleApi(Users newUser)
+        //{
+        //    try
+        //    {
+        //        bool result = this.userBL.SampleApi(newUser);
+        //        if (result == true)
+        //        {
+        //            return this.Ok(new { success = true, Message = "User Registration successful"});
+        //        }
+        //        else
+        //        {
+        //            return this.Ok(new { success = false, Message = "User Registration is not successful" });
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+
+        //        return this.BadRequest(new { success = false, Message = ex.Message, InnerMessage = ex.InnerException });
+        //    }
+
+        //}
+
         [HttpPost]
-        public ActionResult SampleApi(User newUser)
+        public ActionResult AddUser(Users user)
         {
             try
             {
-                bool result = this.userBL.SampleApi(newUser);
-                if (result == true)
-                {
-                    return this.Ok(new { success = true, Message = "User Registration successful"});
-                }
-                else
-                {
-                    return this.Ok(new { success = false, Message = "User Registration is not successful" });
-                }
+                this.userBL.AddUser(user);
+                return this.Ok(new { success = true, Message = "User Registration successful" });
             }
             catch (Exception ex)
             {
 
                 return this.BadRequest(new { success = false, Message = ex.Message, InnerMessage = ex.InnerException });
             }
-
         }
+        
 
     }
 }

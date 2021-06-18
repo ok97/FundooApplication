@@ -9,8 +9,8 @@ namespace RepositoryLayer.Services
     public class UserRL : IUserRL
     {
         // DB
-        IList<User> users = new List<User>();
-        public bool SampleApi(User newUser)
+        IList<Users> users = new List<Users>();
+        public bool SampleApi(Users newUser)
         {
             try
             {
@@ -33,6 +33,18 @@ namespace RepositoryLayer.Services
             }
         }
 
+        UserContext _userDBContext;
+        public UserRL(UserContext userDBContext)
+        {
+            _userDBContext = userDBContext;
+        }
+        public Users AddUser(Users newuser)
+        {
+            _userDBContext.Users.Add(newuser);
+            _userDBContext.SaveChanges();
+            return newuser;
+
+        }
     }
 
 

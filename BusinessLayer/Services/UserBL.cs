@@ -16,7 +16,7 @@ namespace BusinessLayer.Services
         }
 
         //post request Add
-        public bool SampleApi(User newUser)
+        public bool SampleApi(Users newUser)
         {
             try
             {
@@ -28,6 +28,12 @@ namespace BusinessLayer.Services
 
                 throw ex;
             }
+        }
+
+        public Users AddUser(Users user)
+        {
+            this.userRL.AddUser(user);
+            return user;
         }
     }
 }

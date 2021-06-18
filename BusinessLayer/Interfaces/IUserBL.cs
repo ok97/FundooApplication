@@ -7,6 +7,8 @@ namespace BusinessLayer.Interfaces
 {
     public interface IUserBL
     {
-        bool SampleApi(User newUser);
+        bool SampleApi(Users newUser);
+
+        Users AddUser(Users user);
     }
 }
