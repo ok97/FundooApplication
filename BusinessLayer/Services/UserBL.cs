@@ -53,5 +53,21 @@ namespace BusinessLayer.Services
             return this.userRL.Login(email, password);
         }
 
+
+
+        // Forgot Password
+        public bool ForgotPassword(string email)
+        {
+            try
+            {
+                return this.userRL.ForgotPassword(email);
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+
+
     }
 }

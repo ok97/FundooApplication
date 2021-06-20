@@ -31,29 +31,6 @@ namespace FundooApplication.Controllers
         }
 
 
-        //[HttpPost]
-        //public ActionResult SampleApi(Users newUser)
-        //{
-        //    try
-        //    {
-        //        bool result = this.userBL.SampleApi(newUser);
-        //        if (result == true)
-        //        {
-        //            return this.Ok(new { success = true, Message = "User Registration successful"});
-        //        }
-        //        else
-        //        {
-        //            return this.Ok(new { success = false, Message = "User Registration is not successful" });
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-
-        //        return this.BadRequest(new { success = false, Message = ex.Message, InnerMessage = ex.InnerException });
-        //    }
-
-        //}
-
         [HttpPost]
         [Route("Register")]
         public ActionResult AddUser(Users user)
@@ -101,6 +78,34 @@ namespace FundooApplication.Controllers
                 return Unauthorized();
             return this.Ok(new { token = token, success = true, message = "Token Generated Successfull" });
         }
+
+
+        // Forgot Password
+
+        [AllowAnonymous]
+        [HttpPost("forgot-password")]
+        public ActionResult ForgotPassword(Users user)
+        {
+            try
+            {
+                bool isExist = this.userBL.ForgotPassword(user.Email);
+                if (isExist)
+                { 
+                    return Ok(new { success = true, message = $"Reset Link sent to {user.Email}" }); 
+                }
+                else 
+                { 
+                    return BadRequest(new { success = false, message = $"No user Exist with {user.Email}" }); 
+                }
+
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+
+        
 
     }
 }

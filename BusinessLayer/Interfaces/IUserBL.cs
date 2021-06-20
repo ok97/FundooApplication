@@ -19,8 +19,12 @@ namespace BusinessLayer.Interfaces
 
         // User login
         string Login(string email, string password);
+        
 
+        // Forgot Password
+        bool ForgotPassword(string email);
 
+        
 
 
     }

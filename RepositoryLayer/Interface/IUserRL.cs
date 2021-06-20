@@ -19,6 +19,11 @@ namespace RepositoryLayer.Interface
         // User login
         string Login(string email, string password);
 
+        
+        // Forgot Password
+        bool ForgotPassword(string email);
+
+      
 
     }
 }
