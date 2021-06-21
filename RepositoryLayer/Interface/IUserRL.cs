@@ -23,7 +23,8 @@ namespace RepositoryLayer.Interface
         // Forgot Password
         bool ForgotPassword(string email);
 
-      
+        // Change Password
+        void ChangePassword(string email, string newPassword);
 
     }
 }

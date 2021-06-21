@@ -62,12 +62,25 @@ namespace BusinessLayer.Services
             {
                 return this.userRL.ForgotPassword(email);
             }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+
+        // Change Password
+        public void ChangePassword(string email, string newPassword)
+        {
+            try
+            {
+                this.userRL.ChangePassword(email, newPassword);
+            }
             catch (Exception e)
             {
                 throw new Exception(e.Message);
             }
         }
-
 
     }
 }

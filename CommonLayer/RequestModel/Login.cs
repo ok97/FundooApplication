@@ -2,7 +2,7 @@
 
 namespace CommonLayer.RequestModels
 {
-    public class EmailModle
+    public class Login
     {
      
         public string Email { get; set; }

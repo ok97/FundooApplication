@@ -120,7 +120,7 @@ namespace RepositoryLayer.Services
                 }
                 MessageQueue queue;
 
-                //ADD MESSAGE TO QUEUE
+                // Message Queue 
                 if (MessageQueue.Exists(@".\Private$\FundooApplicationQueue"))
                 {
                     queue = new MessageQueue(@".\Private$\FundooApplicationQueue");
@@ -151,30 +151,25 @@ namespace RepositoryLayer.Services
 
         private void msmqQueue_ReceiveCompleted(object sender, ReceiveCompletedEventArgs e)
         {
-            try
-            {
+           
                 MessageQueue queue = (MessageQueue)sender;
                 Message msg = queue.EndReceive(e.AsyncResult);
                 EmailService.SendEmail(e.Message.ToString(), GenerateToken(e.Message.ToString()));
                 queue.BeginReceive();
-            }
-            catch (Exception ex)
-            {
-                throw new NotImplementedException(ex.Message);
-            }
+           
 
         }
 
-        // GENERATE TOKEN WITH EMAIL
+        // Generate Token
         public string GenerateToken(string email)
         {
             if (email == null)
             {
                 return null;
             }
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var tokenKey = Encoding.ASCII.GetBytes("THIS_IS_MY_KEY_TO_GENERATE_TOKEN");
-            var tokenDescriptor = new SecurityTokenDescriptor
+            var tokenHandler = new JwtSecurityTokenHandler(); // A SecurityTokenHandler designed for creating and validating Json Web Tokens
+            var tokenKey = Encoding.ASCII.GetBytes("THIS_IS_MY_KEY_TO_GENERATE_TOKEN"); // encodes all the characters in the specified string into a sequence of bytes.
+            var tokenDescriptor = new SecurityTokenDescriptor // Initializes a new instance of the SecurityTokenDescriptor class
             {
                 Subject = new ClaimsIdentity(new Claim[]
                 {
@@ -182,15 +177,33 @@ namespace RepositoryLayer.Services
                 }),
                 Expires = DateTime.UtcNow.AddHours(1),
                 SigningCredentials =
-                new SigningCredentials(
-                    new SymmetricSecurityKey(tokenKey),
+                new SigningCredentials(new SymmetricSecurityKey(tokenKey),
                     SecurityAlgorithms.HmacSha256Signature)
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);
             return tokenHandler.WriteToken(token);
         }
 
-       
+        // Change Password
+
+        public void ChangePassword(string email, string newPassword)
+        {
+            try
+            {
+                var result = _userDBContext.Users.FirstOrDefault(u => u.Email == email);
+                if (result != null)
+                {
+                    string encryptedPassword = StringCipher.Encrypt(newPassword);
+                    result.Password = encryptedPassword;
+                    _userDBContext.SaveChanges();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
 
     }
 

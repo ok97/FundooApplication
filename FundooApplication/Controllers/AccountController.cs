@@ -1,6 +1,7 @@
 ﻿using Amazon.CognitoIdentityProvider.Model;
 using BusinessLayer.Interfaces;
 using CommonLayer;
+using CommonLayer.RequestModel;
 using CommonLayer.RequestModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -30,7 +31,7 @@ namespace FundooApplication.Controllers
             
         }
 
-
+        // Register User
         [HttpPost]
         [Route("Register")]
         public ActionResult AddUser(Users user)
@@ -49,7 +50,7 @@ namespace FundooApplication.Controllers
 
         
         
-        //get data
+        //Get data
 
        
         [HttpGet]
@@ -70,10 +71,10 @@ namespace FundooApplication.Controllers
 
         // User Login
         [AllowAnonymous]
-        [HttpPost("login")]
-        public IActionResult LoginUser(EmailModle emailModel)
+        [HttpPost("Login")]
+        public IActionResult LoginUser(Login login)
         {
-            var token = this.userBL.Login(emailModel.Email, emailModel.Password);
+            var token = this.userBL.Login(login.Email, login.Password);
             if (token == null)
                 return Unauthorized();
             return this.Ok(new { token = token, success = true, message = "Token Generated Successfull" });
@@ -83,18 +84,20 @@ namespace FundooApplication.Controllers
         // Forgot Password
 
         [AllowAnonymous]
-        [HttpPost("forgot-password")]
-        public ActionResult ForgotPassword(Users user)
+        [HttpPost("Forgot Password")]
+        public ActionResult ForgotPassword(ForgotPassword user)
         {
             try
             {
                 bool isExist = this.userBL.ForgotPassword(user.Email);
                 if (isExist)
-                { 
+                {
+                    Console.WriteLine($"Email User Exist with {user.Email}");
                     return Ok(new { success = true, message = $"Reset Link sent to {user.Email}" }); 
                 }
-                else 
-                { 
+                else                 
+                {
+                   
                     return BadRequest(new { success = false, message = $"No user Exist with {user.Email}" }); 
                 }
 
@@ -105,7 +108,26 @@ namespace FundooApplication.Controllers
             }
         }
 
-        
+        //  Change Password
+
+        [HttpPut("Reset Password")]
+        public ActionResult ResetPassword(UserRestPassword user)
+        {
+            try
+            {
+                if (user.NewPassword != user.ConfirmPassword)
+                {
+                    return Ok(new { success = false, message = "New Password and Confirm Password are not equal." });
+                }
+                var UserEmailObject = User.Claims.FirstOrDefault(x => x.Type.ToString().Equals("Email", StringComparison.InvariantCultureIgnoreCase));
+                this.userBL.ChangePassword(UserEmailObject.Value, user.NewPassword);                
+                return Ok(new { success = true, message = "Password Sucessfully Changed", Email = $"{UserEmailObject.Value}" });
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
 
     }
 }
