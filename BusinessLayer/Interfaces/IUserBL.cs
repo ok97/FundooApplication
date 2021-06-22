@@ -1,5 +1,6 @@
 ﻿using Amazon.CognitoIdentityProvider.Model;
 using CommonLayer;
+using CommonLayer.RequestModel;
 using CommonLayer.RequestModels;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ namespace BusinessLayer.Interfaces
 {
     public interface IUserBL
     {
-        bool SampleApi(Users newUser);
+        //bool SampleApi(Users newUser);
 
         Users AddUser(Users user);
 
@@ -26,6 +27,7 @@ namespace BusinessLayer.Interfaces
 
         // Change Password
         void ChangePassword(string email, string newPassword);
+
 
 
     }

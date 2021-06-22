@@ -1,5 +1,6 @@
 ﻿using Amazon.CognitoIdentityProvider.Model;
 using CommonLayer;
+using CommonLayer.RequestModel;
 using CommonLayer.RequestModels;
 using RepositoryLayer.Services;
 using System;
@@ -25,6 +26,9 @@ namespace RepositoryLayer.Interface
 
         // Change Password
         void ChangePassword(string email, string newPassword);
+
+
+       
 
     }
 }

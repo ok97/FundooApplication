@@ -1,6 +1,7 @@
 ﻿using Amazon.CognitoIdentityProvider.Model;
 using BusinessLayer.Interfaces;
 using CommonLayer;
+using CommonLayer.RequestModel;
 using CommonLayer.RequestModels;
 using RepositoryLayer.Interface;
 using RepositoryLayer.Services;
@@ -17,7 +18,7 @@ namespace BusinessLayer.Services
         {
             this.userRL = userRL;
         }
-
+        /*
         //post request Add
         public bool SampleApi(Users newUser)
         {
@@ -31,7 +32,7 @@ namespace BusinessLayer.Services
 
                 throw ex;
             }
-        }
+        }*/
 
         public Users AddUser(Users user)
         {
@@ -81,6 +82,8 @@ namespace BusinessLayer.Services
                 throw new Exception(e.Message);
             }
         }
+
+
 
     }
 }

@@ -4,16 +4,18 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
-namespace CommonLayer
+namespace CommonLayer.DBModels
 {
-    public class Users
+    public class UserLabel
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int UserLabelId { get; set; }
+
         public int UserId { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string Email { get; set; }
-        public string Password { get; set; }
+        public Users User { get; set; }
+
+        public int LabelId { get; set; }
+        public Label Label { get; set; }
     }
 }
