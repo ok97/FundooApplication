@@ -27,8 +27,6 @@ namespace BusinessLayer.Interfaces
 
         // Change Password
         void ChangePassword(string email, string newPassword);
-
-
-
+      
     }
 }
