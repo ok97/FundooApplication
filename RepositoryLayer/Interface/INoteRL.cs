@@ -18,6 +18,9 @@ namespace RepositoryLayer.Interface
         // Delete Notes using NotesId
         bool DeleteNote(int NotesId);
 
-        
+        // Update Note
+
+        public UserNoteResponseData UpdateNote(int userID, int noteID, UpdateNoteRequest updateNoteRequest);
+
     }
 }

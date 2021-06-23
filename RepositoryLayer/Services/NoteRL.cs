@@ -107,7 +107,40 @@ namespace RepositoryLayer.Services
             }
         }
 
-       
+        // Update Note
+        public UserNoteResponseData UpdateNote(int userID, int noteID, UpdateNoteRequest updateNoteRequest)
+        {
+            try
+            {
+                UserNoteResponseData userNoteResponseData = null;
+                var userData = _userDBContext.Notes.FirstOrDefault(user => user.UserId == userID && user.NotesId == noteID);
+                userData.Title = updateNoteRequest.Title;
+                userData.Description = updateNoteRequest.Description;
+               
+
+                userNoteResponseData = new UserNoteResponseData()
+                {
+                    NoteId = userData.NotesId,
+                    Title = userData.Title,
+                    Description = userData.Description,
+                    Body = userData.Body,
+                    Color = userData.Color,
+                    Image = userData.Image,
+                    Pin = userData.Pin,
+                    Archived = userData.Archived,
+                    Trash = userData.Trash,
+                    ModifiedDate = userData.ModifiedDate,
+                  // Reminder = userData.Reminder
+
+                };
+                _userDBContext.SaveChanges();
+                return userNoteResponseData;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
 
     }
 }

@@ -58,6 +58,11 @@ namespace BusinessLayer.Services
             }
         }
 
-       
+        // Update Note
+        public UserNoteResponseData UpdateNote(int userID, int noteID, UpdateNoteRequest updateNoteRequest)
+        {
+            UserNoteResponseData userNoteResponseData = noteRL.UpdateNote(userID, noteID, updateNoteRequest);
+            return userNoteResponseData;
+        }
     }
 }

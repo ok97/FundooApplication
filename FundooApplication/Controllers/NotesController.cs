@@ -80,6 +80,36 @@ namespace FundooApplication.Controllers
         }
 
 
-        
+        // Update Note
+
+        [HttpPut]
+        [Route("{noteID}")]
+        public IActionResult UpdateNotes(int userId, int noteID, UpdateNoteRequest updateNoteRequest)
+        {
+            try
+            {
+                var idClaim = HttpContext.User.Claims.FirstOrDefault(id => id.Type.Equals("id", StringComparison.InvariantCultureIgnoreCase));
+                
+                UserNoteResponseData userUpdateData = noteBL.UpdateNote(userId, noteID, updateNoteRequest);
+                bool success = false;
+                string message;
+                if (userUpdateData == null)
+                {
+                    message = "Try again";
+                    return Ok(new { success, message });
+                }
+                else
+                {
+                    success = true;
+                    message = "Notes Updated Successfully";
+                    return Ok(new { success, message, userUpdateData });
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { ex.Message });
+
+            }
+        }
     }
 }
