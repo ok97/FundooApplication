@@ -129,12 +129,36 @@ namespace RepositoryLayer.Services
                     Pin = userData.Pin,
                     Archived = userData.Archived,
                     Trash = userData.Trash,
-                    ModifiedDate = userData.ModifiedDate,
-                  // Reminder = userData.Reminder
+                    ModifiedDate = userData.ModifiedDate,                  
 
                 };
                 _userDBContext.SaveChanges();
                 return userNoteResponseData;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+
+        //
+        public bool AddReminder(int userID, int noteID, ReminderRequest reminder)
+        {
+            try
+            {
+                var userData = _userDBContext.Notes.FirstOrDefault(user => user.UserId == userID && user.NotesId == noteID);
+                if (userData != null)
+                {
+                    userData.Reminder = reminder.Reminder;
+                    _userDBContext.SaveChanges();
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+
             }
             catch (Exception ex)
             {

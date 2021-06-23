@@ -21,5 +21,8 @@ namespace BusinessLayer.Interfaces
         // Update Note
         public UserNoteResponseData UpdateNote(int userID, int noteID, UpdateNoteRequest updateNoteRequest);
 
+
+        // Add Reminder
+        public bool AddReminder(int userID, int noteID, ReminderRequest reminder);
     }
 }

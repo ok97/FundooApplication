@@ -40,7 +40,7 @@ namespace FundooApplication.Controllers
         // Get Notes using UserId
 
         [AllowAnonymous]
-        [HttpGet("{UserId}")]
+        [HttpGet("Get")]
         public ActionResult GetAllNotes(int UserId)
         {
             var result = this.noteBL.GetAllNotes(UserId);
@@ -52,8 +52,8 @@ namespace FundooApplication.Controllers
 
         // Delete Note Using NotesId
 
-        [HttpDelete]
-        [Route("{NotesId}")]
+        [HttpDelete("Delete")]
+        
         public IActionResult DeleteNote(int NotesId)
         {
             try
@@ -82,8 +82,7 @@ namespace FundooApplication.Controllers
 
         // Update Note
 
-        [HttpPut]
-        [Route("{noteID}")]
+        [HttpPut("Update")]        
         public IActionResult UpdateNotes(int userId, int noteID, UpdateNoteRequest updateNoteRequest)
         {
             try
@@ -103,6 +102,37 @@ namespace FundooApplication.Controllers
                     success = true;
                     message = "Notes Updated Successfully";
                     return Ok(new { success, message, userUpdateData });
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { ex.Message });
+
+            }
+        }
+        //
+        [HttpPut("Reminder")]
+        
+        public IActionResult AddReminder(int userId,int noteID, ReminderRequest reminder)
+        {
+            try
+            {
+                bool success = false, data;
+                string message;
+                var idClaim = HttpContext.User.Claims.FirstOrDefault(id => id.Type.Equals("id", StringComparison.InvariantCultureIgnoreCase));
+               // int userId = Convert.ToInt32(idClaim.Value);
+               data = noteBL.AddReminder(userId, noteID, reminder);
+
+                if (data)
+                {
+                    success = true;
+                    message = "Reminder Set Successfully";
+                    return Ok(new { success, message });
+                }
+                else
+                {
+                    message = "Try Again!";
+                    return Ok(new { success, message });
                 }
             }
             catch (Exception ex)

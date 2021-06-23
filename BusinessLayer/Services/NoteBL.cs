@@ -64,5 +64,13 @@ namespace BusinessLayer.Services
             UserNoteResponseData userNoteResponseData = noteRL.UpdateNote(userID, noteID, updateNoteRequest);
             return userNoteResponseData;
         }
+
+
+        //
+        public bool AddReminder(int userID, int noteID, ReminderRequest reminder)
+        {
+            bool responseData = noteRL.AddReminder(userID, noteID, reminder);
+            return responseData;
+        }
     }
 }
