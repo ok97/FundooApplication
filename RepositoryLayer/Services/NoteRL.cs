@@ -142,7 +142,7 @@ namespace RepositoryLayer.Services
         }
 
 
-        //
+        // Add Reminder
         public bool AddReminder(int userID, int noteID, ReminderRequest reminder)
         {
             try
@@ -151,6 +151,30 @@ namespace RepositoryLayer.Services
                 if (userData != null)
                 {
                     userData.Reminder = reminder.Reminder;
+                    _userDBContext.SaveChanges();
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        // Add Color
+        public bool AddColor(int userID, int noteID, ColorRequest color)
+        {
+            try
+            {
+                var userData = _userDBContext.Notes.FirstOrDefault(user => user.UserId == userID && user.NotesId == noteID);
+                if (userData != null)
+                {
+                    userData.Color = color.Color;
                     _userDBContext.SaveChanges();
                     return true;
                 }

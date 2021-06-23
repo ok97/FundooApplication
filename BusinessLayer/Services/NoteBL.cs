@@ -66,10 +66,18 @@ namespace BusinessLayer.Services
         }
 
 
-        //
+        // Add Reminder
         public bool AddReminder(int userID, int noteID, ReminderRequest reminder)
         {
             bool responseData = noteRL.AddReminder(userID, noteID, reminder);
+            return responseData;
+        }
+
+
+        // Add Color
+        public bool AddColor(int userID, int noteID, ColorRequest color)
+        {
+            bool responseData = noteRL.AddColor(userID, noteID, color);
             return responseData;
         }
     }

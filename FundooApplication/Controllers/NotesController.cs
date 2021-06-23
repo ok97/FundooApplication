@@ -110,7 +110,7 @@ namespace FundooApplication.Controllers
 
             }
         }
-        //
+        // Add Reminder
         [HttpPut("Reminder")]
         
         public IActionResult AddReminder(int userId,int noteID, ReminderRequest reminder)
@@ -123,6 +123,7 @@ namespace FundooApplication.Controllers
                // int userId = Convert.ToInt32(idClaim.Value);
                data = noteBL.AddReminder(userId, noteID, reminder);
 
+                
                 if (data)
                 {
                     success = true;
@@ -141,5 +142,38 @@ namespace FundooApplication.Controllers
 
             }
         }
+
+        // Add Color
+        [HttpPut]
+        [Route("Color")]
+        public IActionResult AddColor(int userId, int noteID, ColorRequest color)
+        {
+            try
+            {
+                bool success = false, data;
+                string message;
+              //  var idClaim = HttpContext.User.Claims.FirstOrDefault(id => id.Type.Equals("id", StringComparison.InvariantCultureIgnoreCase));
+                //int userId = Convert.ToInt32(idClaim.Value);
+                data = noteBL.AddColor(userId, noteID, color);
+
+                if (data)
+                {
+                    success = true;
+                    message = "Color Set Successfully";
+                    return Ok(new { success, message });
+                }
+                else
+                {
+                    message = "Try Again!";
+                    return Ok(new { success, message });
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { ex.Message });
+
+            }
+        }
+
     }
 }

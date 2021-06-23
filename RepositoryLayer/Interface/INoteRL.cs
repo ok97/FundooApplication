@@ -25,5 +25,8 @@ namespace RepositoryLayer.Interface
 
         // Add Reminder
         public bool AddReminder(int userID, int noteID, ReminderRequest reminder);
+
+        // Add Color
+        public bool AddColor(int userID, int noteID, ColorRequest color);
     }
 }
