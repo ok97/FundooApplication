@@ -27,5 +27,8 @@ namespace BusinessLayer.Interfaces
 
         // Add Color
         public bool AddColor(int userID, int noteID, ColorRequest color);
+
+        // Add Image
+        public bool AddImage(int userID, int noteID, ImageRequest image);
     }
 }

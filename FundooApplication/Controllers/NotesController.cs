@@ -175,5 +175,33 @@ namespace FundooApplication.Controllers
             }
         }
 
+        [HttpPut("Add Image")]
+       
+        public IActionResult AddImage(int userID,int noteID, ImageRequest imageRequest)
+        {
+            try
+            {
+                bool success = false;
+                string message;
+               
+                bool data = noteBL.AddImage(userID, noteID, imageRequest);
+                if (data)
+                {
+                    success = true;
+                    message = "Image Added Successfully";
+                    return Ok(new { success, message });
+                }
+                else
+                {
+                    message = "Unsuccessfull";
+                    return Ok(new { success, message });
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { ex.Message });
+            }
+        }
+
     }
 }

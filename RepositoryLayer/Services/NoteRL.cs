@@ -190,5 +190,23 @@ namespace RepositoryLayer.Services
             }
         }
 
+
+
+        // Add Image
+        public bool AddImage(int userID, int noteID, ImageRequest image)
+        {
+            try
+            {
+                var userData = _userDBContext.Notes.FirstOrDefault(user => user.UserId == userID && user.NotesId == noteID);
+                userData.Image = image.Image;
+                _userDBContext.SaveChanges();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
     }
 }

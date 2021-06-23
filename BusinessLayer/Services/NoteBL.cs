@@ -80,5 +80,11 @@ namespace BusinessLayer.Services
             bool responseData = noteRL.AddColor(userID, noteID, color);
             return responseData;
         }
+
+        public bool AddImage(int userID, int noteID, ImageRequest image)
+        {
+            bool data = noteRL.AddImage(userID, noteID, image);
+            return data;
+        }
     }
 }
