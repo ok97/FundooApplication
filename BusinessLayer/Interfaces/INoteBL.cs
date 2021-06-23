@@ -1,5 +1,6 @@
 ﻿using CommonLayer.DatabaseModel;
 using CommonLayer.RequestModel;
+using CommonLayer.ResponseModel;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -11,8 +12,12 @@ namespace BusinessLayer.Interfaces
         // Add Notes
         void AddNote(AddNote note);
 
-        //
+        // Get Notes using UserId
         List<Note> GetAllNotes(int UserId);
-       
+
+        // Delete Notes using NotesId
+        bool DeleteNote(int NotesId);
+
+        
     }
 }

@@ -1,5 +1,7 @@
 ﻿using CommonLayer.DatabaseModel;
 using CommonLayer.RequestModel;
+using CommonLayer.ResponseModel;
+using Microsoft.EntityFrameworkCore;
 using RepositoryLayer.Interface;
 using System;
 using System.Collections.Generic;
@@ -74,5 +76,38 @@ namespace RepositoryLayer.Services
                 throw new Exception(e.Message);
             }
         }
+
+        // Delete Note Using Note ID
+        public bool DeleteNote(int noteId)
+        {
+            try
+            {
+                if (_userDBContext.Notes.Any(n => n.NotesId == noteId))
+                {
+                    var note = _userDBContext.Notes.Find(noteId);
+                    if (note.Trash)
+                    {
+                        _userDBContext.Entry(note).State = EntityState.Deleted;
+                    }
+                    else
+                    {
+                        note.Trash = true;
+                        note.Pin = false;
+                      
+                    }
+                    _userDBContext.SaveChanges();
+                    return true;
+                }
+                return false;
+            }
+
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+       
+
     }
 }
