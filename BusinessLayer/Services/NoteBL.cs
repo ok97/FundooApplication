@@ -1,6 +1,7 @@
 ﻿using BusinessLayer.Interfaces;
 using CommonLayer.DatabaseModel;
 using CommonLayer.RequestModel;
+using CommonLayer.ResponseModel;
 using RepositoryLayer.Interface;
 using System;
 using System.Collections.Generic;
@@ -16,19 +17,14 @@ namespace BusinessLayer.Services
             this.noteRL = noteRL;
         }
         // Add Notes
-        public void AddNote(AddNote note)
+        public UserNoteResponseData CreateNote(int UserID, AddNote userNotes)
         {
-            try
-            {
-                this.noteRL.AddNote(note);
-            }
-            catch (Exception e)
-            {
-                throw new Exception(e.Message);
-            }
+            UserNoteResponseData userNoteResponseData = noteRL.CreateNote(UserID, userNotes);
+            return userNoteResponseData;
         }
 
 
+        // Get Notes using UserId
 
         public List<Note> GetAllNotes(int UserId)
         {
@@ -40,6 +36,49 @@ namespace BusinessLayer.Services
             {
                 throw new Exception(e.Message);
             }
+        }
+
+        // Delete Note Using NotesId
+        public bool DeleteNote(int NotesId)
+        {
+            try
+            {
+                bool result = noteRL.DeleteNote(NotesId);
+                return result;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        // Update Note
+        public UserNoteResponseData UpdateNote(int userID, int noteID, UpdateNoteRequest updateNoteRequest)
+        {
+            UserNoteResponseData userNoteResponseData = noteRL.UpdateNote(userID, noteID, updateNoteRequest);
+            return userNoteResponseData;
+        }
+
+
+        // Add Reminder
+        public bool AddReminder(int userID, int noteID, ReminderRequest reminder)
+        {
+            bool responseData = noteRL.AddReminder(userID, noteID, reminder);
+            return responseData;
+        }
+
+
+        // Add Color
+        public bool AddColor(int userID, int noteID, ColorRequest color)
+        {
+            bool responseData = noteRL.AddColor(userID, noteID, color);
+            return responseData;
+        }
+
+        public bool AddImage(int userID, int noteID, ImageRequest image)
+        {
+            bool data = noteRL.AddImage(userID, noteID, image);
+            return data;
         }
     }
 }

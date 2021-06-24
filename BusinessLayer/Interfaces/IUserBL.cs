@@ -12,15 +12,15 @@ namespace BusinessLayer.Interfaces
     {
         //bool SampleApi(Users newUser);
 
-        Users AddUser(Users user);
+        void RegisterUser(Users user);
 
         // get data
-         List<Users> GetUsersData();
+        List<Users> GetUsersData();
 
 
         // User login
         string Login(string email, string password);
-        
+
 
         // Forgot Password
         bool ForgotPassword(string email);

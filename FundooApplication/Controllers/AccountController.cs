@@ -32,27 +32,24 @@ namespace FundooApplication.Controllers
         }
 
         // Register User
-        [HttpPost]
-        [Route("Register")]
-        public ActionResult AddUser(Users user)
+        [AllowAnonymous]
+        [HttpPost("Register")]
+        public ActionResult RegisterUser(Users user)
         {
             try
             {
-                this.userBL.AddUser(user);
-                return this.Ok(new { success = true, Message = "User Registration successful" });
+                this.userBL.RegisterUser(user);
+                return this.Ok(new { success = true, message = $"Registration Successfull {user.Email}" });
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-
-                return this.BadRequest(new { success = false, Message = ex.Message, InnerMessage = ex.InnerException });
+                return this.BadRequest(new { success = false, message = $"Registration Failed {e.Message}" });
             }
         }
 
-        
-        
         //Get data
 
-       
+
         [HttpGet]
         [Route("Get")]
         public ActionResult GetUsersData()
@@ -72,14 +69,22 @@ namespace FundooApplication.Controllers
         // User Login
         [AllowAnonymous]
         [HttpPost("Login")]
-        public IActionResult LoginUser(Login login)
+        public IActionResult Login(Login cred)
         {
-            var token = this.userBL.Login(login.Email, login.Password);
+            var token = this.userBL.Login(cred.Email, cred.Password);
             if (token == null)
-                return Unauthorized();
-            return this.Ok(new { token = token, success = true, message = "Token Generated Successfull" });
+            return Unauthorized();
+            return this.Ok(new { success = true, token = token, message = $"Login {cred.Email}" });
         }
 
+
+        [HttpGet("GetUser")]
+        public string GetUser()
+        {
+            var UserEmail = User.Claims.FirstOrDefault(x => x.Type.ToString().Equals("Email", StringComparison.InvariantCultureIgnoreCase));
+            var UserId = User.Claims.FirstOrDefault(x => x.Type.ToString().Equals("UserId", StringComparison.InvariantCultureIgnoreCase));
+            return $" CLAIMS Email:{UserEmail.Value} UserId:{UserId.Value}";
+        }
 
         // Forgot Password
 

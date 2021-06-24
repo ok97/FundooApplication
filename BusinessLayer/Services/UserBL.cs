@@ -33,15 +33,32 @@ namespace BusinessLayer.Services
                 throw ex;
             }
         }*/
-
-        public Users AddUser(Users user)
+        public void RegisterUser(Users user)
         {
-            this.userRL.AddUser(user);
-            return user;
+            try
+            {
+                this.userRL.RegisterUser(user);
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
         }
 
+        //public string AuthenticateUser(string email, string password)
+        //{
+        //    try
+        //    {
+        //        return this.userRL.AuthenticateUser(email, password);
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        throw new Exception(e.Message);
+        //    }
+        //}
+
         //get data
-       
+
         public List<Users> GetUsersData()
         {
             List<Users> usersList = userRL.GetUsersData();
@@ -51,7 +68,14 @@ namespace BusinessLayer.Services
         //Users login
         public string Login(string email, string password)
         {
-            return this.userRL.Login(email, password);
+            try
+            {
+                return this.userRL.Login(email, password);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
 

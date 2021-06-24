@@ -49,14 +49,21 @@ namespace RepositoryLayer.Services
         {
             _userDBContext = userDBContext;
         }
-        public Users AddUser(Users newuser)
+        public void RegisterUser(Users user)
         {
-            _userDBContext.Users.Add(newuser);
-            _userDBContext.SaveChanges();
-            return newuser;
-
+            try
+            {
+                string encryptedPassword = StringCipher.Encrypt(user.Password);
+                user.Password = encryptedPassword;
+                _userDBContext.Users.Add(user);
+                _userDBContext.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
         }
-        
+
         //get data
         public List<Users> GetUsersData()
         {
@@ -89,25 +96,37 @@ namespace RepositoryLayer.Services
 
         public string Login(string email, string password)
         {
-            var result = _userDBContext.Users.FirstOrDefault(u => u.Email == email && u.Password == password);
-            if (result == null)
-                return null;
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var tokenKey = Encoding.ASCII.GetBytes("Hello This Token Is Genereted ");
-            var tokenDescriptor = new SecurityTokenDescriptor
+            try
             {
-                Subject = new ClaimsIdentity(new Claim[]
+                string encryptedPassword = StringCipher.Encrypt(password);
+                var result = _userDBContext.Users.FirstOrDefault(u => u.Email == email && u.Password == encryptedPassword);
+                if (result == null)
                 {
-                    new Claim(ClaimTypes.Email, email)
-
-                }),
-                Expires = DateTime.UtcNow.AddDays(7),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(tokenKey), SecurityAlgorithms.HmacSha256Signature)
-            };
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-            return tokenHandler.WriteToken(token);
+                    return null;
+                }
+                var tokenHandler = new JwtSecurityTokenHandler();
+                var tokenKey = Encoding.ASCII.GetBytes("Hello This Token Is Genereted");
+                var tokenDescriptor = new SecurityTokenDescriptor
+                {
+                    Subject = new ClaimsIdentity(new Claim[]
+                    {
+                    new Claim("Email",email),
+                    new Claim("UserId",result.UserId.ToString())
+                    }),
+                    Expires = DateTime.UtcNow.AddHours(1),
+                    SigningCredentials =
+                    new SigningCredentials(
+                        new SymmetricSecurityKey(tokenKey),
+                        SecurityAlgorithms.HmacSha256Signature)
+                };
+                var token = tokenHandler.CreateToken(tokenDescriptor);
+                return tokenHandler.WriteToken(token);
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
         }
-
 
         // Forgot Password
         public bool ForgotPassword(string email)
@@ -168,9 +187,9 @@ namespace RepositoryLayer.Services
             {
                 return null;
             }
-            var tokenHandler = new JwtSecurityTokenHandler(); // A SecurityTokenHandler designed for creating and validating Json Web Tokens
-            var tokenKey = Encoding.ASCII.GetBytes("THIS_IS_MY_KEY_TO_GENERATE_TOKEN"); // encodes all the characters in the specified string into a sequence of bytes.
-            var tokenDescriptor = new SecurityTokenDescriptor // Initializes a new instance of the SecurityTokenDescriptor class
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var tokenKey = Encoding.ASCII.GetBytes("THIS_IS_MY_KEY_TO_GENERATE_TOKEN");
+            var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new Claim[]
                 {
@@ -178,7 +197,8 @@ namespace RepositoryLayer.Services
                 }),
                 Expires = DateTime.UtcNow.AddHours(1),
                 SigningCredentials =
-                new SigningCredentials(new SymmetricSecurityKey(tokenKey),
+                new SigningCredentials(
+                    new SymmetricSecurityKey(tokenKey),
                     SecurityAlgorithms.HmacSha256Signature)
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);

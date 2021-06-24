@@ -1,5 +1,7 @@
 ﻿using CommonLayer.DatabaseModel;
 using CommonLayer.RequestModel;
+using CommonLayer.ResponseModel;
+using Microsoft.EntityFrameworkCore;
 using RepositoryLayer.Interface;
 using System;
 using System.Collections.Generic;
@@ -17,36 +19,45 @@ namespace RepositoryLayer.Services
         }
 
         // Add Notes
-        public void AddNote(AddNote note)
+        public UserNoteResponseData CreateNote(int UserID, AddNote note)
         {
             try
             {
-                var user = _userDBContext.Users.FirstOrDefault(e => e.UserId == note.UserId);
-                if (user != null)
+                Note userNote = new Note()
                 {
-                    Note Addnote = new Note();
-                    Addnote.UserId = note.UserId;
-                    Addnote.Title = note.Title;
-                    Addnote.Description = note.Description;
-                    Addnote.Body = note.Body;
-                    Addnote.Reminder = note.Reminder;
-                    Addnote.Color = note.Color;
-                    Addnote.Image = note.Image;
-                    Addnote.Archived = note.Archived;
-                    Addnote.Trash = note.Trash;
-                    Addnote.Pin = note.Pin;
-                    Addnote.CreatedDate = note.CreatedDate;
-                    Addnote.ModifiedDate = note.ModifiedDate;
-                    Addnote.User = user;
-                    
-                    _userDBContext.Notes.Add(Addnote);
-                    _userDBContext.SaveChanges();
-                }
-                else
-                {
-                    throw new Exception("UserId Not Exist.");
-                }
+                    UserId = UserID,
+                    Title = note.Title,
+                    Description = note.Description,
+                    Body = note.Body,
+                    Reminder = note.Reminder,
+                    Color = note.Color,
+                    Image = note.Image,
+                    Pin = note.Pin,
+                    Archived = note.Archived,
+                    Trash = note.Trash,
+                    CreatedDate = DateTime.Now,
+                    ModifiedDate = DateTime.Now
+                };
+                _userDBContext.Notes.Add(userNote);
+                _userDBContext.SaveChanges();
 
+                UserNoteResponseData noteResponseData = new UserNoteResponseData()
+                {
+                    NoteId = userNote.NotesId,
+                    Title = userNote.Title,
+                    Description = userNote.Description,
+                    Body = userNote.Body,
+                    Reminder = userNote.Reminder,
+                    Color = userNote.Color,
+                    Image = userNote.Image,
+                    Pin = userNote.Pin,
+                    Archived = userNote.Archived,
+                    Trash = userNote.Trash,
+                    CreatedDate = DateTime.Now,
+                    ModifiedDate = DateTime.Now
+
+                };
+                return noteResponseData;
             }
             catch (Exception ex)
             {
@@ -74,5 +85,137 @@ namespace RepositoryLayer.Services
                 throw new Exception(e.Message);
             }
         }
+
+        // Delete Note Using Note ID
+        public bool DeleteNote(int noteId)
+        {
+            try
+            {
+                if (_userDBContext.Notes.Any(n => n.NotesId == noteId))
+                {
+                    var note = _userDBContext.Notes.Find(noteId);
+                    if (note.Trash)
+                    {
+                        _userDBContext.Entry(note).State = EntityState.Deleted;
+                    }
+                    else
+                    {
+                        note.Trash = true;
+                        note.Pin = false;
+                      
+                    }
+                    _userDBContext.SaveChanges();
+                    return true;
+                }
+                return false;
+            }
+
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        // Update Note
+        public UserNoteResponseData UpdateNote(int userID, int noteID, UpdateNoteRequest updateNoteRequest)
+        {
+            try
+            {
+                UserNoteResponseData userNoteResponseData = null;
+                var userData = _userDBContext.Notes.FirstOrDefault(user => user.UserId == userID && user.NotesId == noteID);
+                userData.Title = updateNoteRequest.Title;
+                userData.Description = updateNoteRequest.Description;
+               
+
+                userNoteResponseData = new UserNoteResponseData()
+                {
+                    NoteId = userData.NotesId,
+                    Title = userData.Title,
+                    Description = userData.Description,
+                    Body = userData.Body,
+                    Color = userData.Color,
+                    Image = userData.Image,
+                    Pin = userData.Pin,
+                    Archived = userData.Archived,
+                    Trash = userData.Trash,
+                    ModifiedDate = userData.ModifiedDate,                  
+
+                };
+                _userDBContext.SaveChanges();
+                return userNoteResponseData;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+
+        // Add Reminder
+        public bool AddReminder(int userID, int noteID, ReminderRequest reminder)
+        {
+            try
+            {
+                var userData = _userDBContext.Notes.FirstOrDefault(user => user.UserId == userID && user.NotesId == noteID);
+                if (userData != null)
+                {
+                    userData.Reminder = reminder.Reminder;
+                    _userDBContext.SaveChanges();
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        // Add Color
+        public bool AddColor(int userID, int noteID, ColorRequest color)
+        {
+            try
+            {
+                var userData = _userDBContext.Notes.FirstOrDefault(user => user.UserId == userID && user.NotesId == noteID);
+                if (userData != null)
+                {
+                    userData.Color = color.Color;
+                    _userDBContext.SaveChanges();
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+
+
+        // Add Image
+        public bool AddImage(int userID, int noteID, ImageRequest image)
+        {
+            try
+            {
+                var userData = _userDBContext.Notes.FirstOrDefault(user => user.UserId == userID && user.NotesId == noteID);
+                userData.Image = image.Image;
+                _userDBContext.SaveChanges();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
     }
 }
