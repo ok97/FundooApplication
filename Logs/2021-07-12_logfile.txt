@@ -1,0 +1,5 @@
+2021-07-12 23:02:16.6004 INFO Accessed Account Controller
+2021-07-12 23:02:16.6165 INFO Accessed Register Api
+2021-07-12 23:12:14.6927 INFO Accessed Account Controller
+2021-07-12 23:12:26.7844 INFO Login user
+2021-07-12 23:12:35.0065 WARN Invalid Email and Password

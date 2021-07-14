@@ -1,0 +1,2 @@
+2021-07-12 23:00:56.4387 INFO Accessed Account Controller
+2021-07-12 23:00:56.4387 INFO Accessed Register Api
