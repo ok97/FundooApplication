@@ -38,7 +38,7 @@ namespace FundooApplication
         {
             services.AddDbContext<UserContext>(opts => opts.UseSqlServer(Configuration["ConnectionString:FundooDB"]));
 
-            //
+            // logging
             services.AddSingleton<ILoggerService, LoggerServices>();
 
             services.AddControllers();

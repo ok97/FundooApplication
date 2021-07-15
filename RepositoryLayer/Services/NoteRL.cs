@@ -87,13 +87,13 @@ namespace RepositoryLayer.Services
         }
 
         // Delete Note Using Note ID
-        public bool DeleteNote(DeleteNote notesId)
+        public bool DeleteNote(int noteId)
         {
             try
             {
-                if (_userDBContext.Notes.Any(n => n.NotesId == notesId.NotesId))
+                if (_userDBContext.Notes.Any(n => n.NotesId == noteId))
                 {
-                    var note = _userDBContext.Notes.Find(notesId.NotesId);
+                    var note = _userDBContext.Notes.Find(noteId);
                     if (note.Trash)
                     {
                         _userDBContext.Entry(note).State = EntityState.Deleted;
@@ -102,7 +102,7 @@ namespace RepositoryLayer.Services
                     {
                         note.Trash = true;
                         note.Pin = false;
-                      
+
                     }
                     _userDBContext.SaveChanges();
                     return true;
@@ -115,6 +115,7 @@ namespace RepositoryLayer.Services
                 throw new Exception(ex.Message);
             }
         }
+
         // Update Note
         public UserNoteResponseData UpdateNote( UpdateNoteRequest updateNoteRequest)
         {

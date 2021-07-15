@@ -37,13 +37,12 @@ namespace BusinessLayer.Services
                 throw new Exception(e.Message);
             }
         }
-
         // Delete Note Using NotesId
-        public bool DeleteNote(DeleteNote notesId)
+        public bool DeleteNote(int NotesId)
         {
             try
             {
-                bool result = noteRL.DeleteNote(notesId);
+                bool result = noteRL.DeleteNote(NotesId);
                 return result;
             }
             catch (Exception)

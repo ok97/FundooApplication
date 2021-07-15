@@ -13,9 +13,9 @@ namespace RepositoryLayer.Interface
         UserNoteResponseData CreateNote(int UserID, AddNote userNotes);
         // Get Notes using UserId
         List<Note> GetAllNotes(int UserId);
-
+       
         // Delete Notes using NotesId
-        bool DeleteNote(DeleteNote notesId);
+        bool DeleteNote(int NotesId);
 
         // Update Note
 

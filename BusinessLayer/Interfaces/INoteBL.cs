@@ -16,7 +16,9 @@ namespace BusinessLayer.Interfaces
         List<Note> GetAllNotes(int UserId);
 
         // Delete Notes using NotesId
-        bool DeleteNote(DeleteNote notesId);
+        bool DeleteNote(int NotesId);
+
+
 
         // Update Note
         public UserNoteResponseData UpdateNote(UpdateNoteRequest updateNoteRequest);

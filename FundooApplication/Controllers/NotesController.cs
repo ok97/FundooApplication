@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
 using Microsoft.Extensions.Configuration;
+using FundooApplication.Contracts;
 
 namespace FundooApplication.Controllers
 {
@@ -20,10 +21,13 @@ namespace FundooApplication.Controllers
     [ApiController]
     public class NotesController : ControllerBase
     {
+        //Declare private object for logger object
+        private readonly ILoggerService _logger;
         INoteBL noteBL;
-        public NotesController(INoteBL noteBl)
+        public NotesController(INoteBL noteBl, ILoggerService logger)
         {
             this.noteBL = noteBl;
+            _logger = logger;
         }
       //[Authorize]
         [HttpPost("AddNote")]
@@ -44,6 +48,7 @@ namespace FundooApplication.Controllers
                 }
                 else
                 {
+                    _logger.LogInfo($"Notes Created Successfully {userID}");
                     success = true;
                     message = $"Notes Created Successfully {userID}";
                     return Ok(new { success, message, data });
@@ -74,8 +79,8 @@ namespace FundooApplication.Controllers
         // Delete Note Using NotesId
 
         [HttpDelete("Delete")]
-        
-        public IActionResult DeleteNote(DeleteNote notesId)
+
+        public IActionResult DeleteNote(int notesId)
         {
             try
             {
@@ -99,7 +104,6 @@ namespace FundooApplication.Controllers
                 return BadRequest(new { ex.Message });
             }
         }
-
 
         // Update Note
 
