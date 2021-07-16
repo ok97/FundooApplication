@@ -77,8 +77,9 @@ namespace FundooApplication.Controllers
 
 
         // Delete Note Using NotesId
+        //[AllowAnonymous]
 
-        [HttpDelete("Delete")]
+        [HttpDelete("Delete/{notesId}")]
 
         public IActionResult DeleteNote(int notesId)
         {
@@ -95,7 +96,7 @@ namespace FundooApplication.Controllers
                 }
                 else
                 {
-                    message = $"Update Failed";
+                    message = $"Delete Failed";
                     return Ok(new { success, message });
                 }
             }
