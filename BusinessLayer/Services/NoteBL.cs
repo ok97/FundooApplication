@@ -94,11 +94,11 @@ namespace BusinessLayer.Services
             return data;
         }
         // Update Archived
-        public void UpdateArchived(int noteId, bool Archived)
+        public void UpdateArchived(AddArchived UpdateArchived)
         {
             try
             {
-                this.noteRL.UpdateArchived(noteId, Archived);
+                this.noteRL.UpdateArchived(UpdateArchived);
             }
             catch (Exception ex)
             {

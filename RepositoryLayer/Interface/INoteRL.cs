@@ -38,7 +38,7 @@ namespace RepositoryLayer.Interface
 
 
         // Update Archived
-        public void UpdateArchived(int noteId, bool Archived);
+        public void UpdateArchived(AddArchived UpdateArchived);
 
         // Update Trash
         public void UpdateTrash(int noteId, bool Trash);

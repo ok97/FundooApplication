@@ -264,14 +264,14 @@ namespace RepositoryLayer.Services
 
 
         // Update Archived
-        public void UpdateArchived(int noteId, bool Archived)
+        public void UpdateArchived(AddArchived UpdateArchived)
         {
             try
             {
-                var result = _userDBContext.Notes.FirstOrDefault(u => u.NotesId == noteId);
+                var result = _userDBContext.Notes.FirstOrDefault(u => u.NotesId == UpdateArchived.NotesId);
                 if (result != null)
                 {
-                    result.Archived = Archived;
+                    result.Archived = UpdateArchived.Archived;
                     _userDBContext.SaveChanges();
                 }
                 else

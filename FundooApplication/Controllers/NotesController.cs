@@ -43,12 +43,14 @@ namespace FundooApplication.Controllers
                 string message;
                 if (userNoteData == null)
                 {
+                    _logger.LogError("Create Note Failed"); // Logger Error
                     message = $"Create Note Failed";
                     return Ok(new { success, message });
+                   
                 }
                 else
                 {
-                    _logger.LogInfo($"Notes Created Successfully {userID}");
+                    _logger.LogInfo($"Notes Created Successfully {userID}"); // Logger Info
                     success = true;
                     message = $"Notes Created Successfully {userID}";
                     return Ok(new { success, message, data });
@@ -70,6 +72,7 @@ namespace FundooApplication.Controllers
             var result = noteBL.GetAllNotes(UserId);
             if (result != null)
             {
+                _logger.LogInfo($"Get Notes Successfully Thise UserId:- {UserId}"); //Logger 
                 return this.Ok(new { success = true, message = $"List Of Notes with UserId: {UserId}.", data = result });
             }
             return BadRequest(new { success = false, message = $"No such UserId Exist." });
@@ -90,12 +93,14 @@ namespace FundooApplication.Controllers
                 string message;
                 if (data)
                 {
+                    _logger.LogInfo($"Delete Notes Successfully thise NotesId:- {notesId}"); //Logger
                     success = true;
                     message = "Note Deleted Successfull";
                     return Ok(new { success, message });
                 }
                 else
                 {
+                    _logger.LogError("delete Note Failed"); // Logger Error
                     message = $"Delete Failed";
                     return Ok(new { success, message });
                 }
@@ -125,6 +130,7 @@ namespace FundooApplication.Controllers
                 }
                 else
                 {
+                    _logger.LogInfo($"Update Notes Successfully {userUpdateData}"); //Logger 
                     success = true;
                     message = "Notes Updated Successfully";
                     return Ok(new { success, message, userUpdateData });
@@ -282,11 +288,11 @@ namespace FundooApplication.Controllers
         }
         // Update Archived
         [HttpPut("Archived")]
-        public ActionResult UpdateArchived(int noteId, AddArchived UpdateArchived)
+        public ActionResult UpdateArchived( AddArchived UpdateArchived)
         {
             try
             {
-                this.noteBL.UpdateArchived(noteId, UpdateArchived.Archived);
+                this.noteBL.UpdateArchived( UpdateArchived);
                 return Ok(new { success = true, message = $"Archived Update Successfull" });
             }
             catch (Exception)
