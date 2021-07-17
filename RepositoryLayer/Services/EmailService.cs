@@ -17,7 +17,7 @@ namespace RepositoryLayer.Services
                 client.Port = 587;
                 client.DeliveryMethod = SmtpDeliveryMethod.Network;
                 client.UseDefaultCredentials = true;
-                client.Credentials = new NetworkCredential("orkhawshi@mitaoe.ac.in", "9921670012");
+                client.Credentials = new NetworkCredential("orkhawshi@mitaoe.ac.in", "****************");
 
                 MailMessage msg = new MailMessage();
                 msg.To.Add(email);
